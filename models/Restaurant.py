@@ -1,13 +1,20 @@
-from app import db
-from models import Restaurant
+from flask_sqlalchemy import SQLAlchemy
 
-new_restaurant = Restaurant(name="Pizza Palace", address="123 Main St")
+db = SQLAlchemy()
 
 class Restaurant(db.Model):
+    __tablename__ = 'restaurants'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
-    address = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, name, address):
-        self.name = name
-        self.address = address
+    # Define the relationship with RestaurantPizza
+    restaurant_pizzas = db.relationship('RestaurantPizza', backref='restaurant', lazy=True)  # noqa: E501
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "address": self.address
+        }
