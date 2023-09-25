@@ -1,13 +1,11 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from models.Pizza import Pizza
-from models.Restaurant import Restaurant
-from models.RestaurantPizza import RestaurantPizza
-
+from models import Restaurant,RestaurantPizza,Pizza,db
+from flask_migrate import Migrate
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizzadatabase.db'
-db = SQLAlchemy(app)
 
+migrate = Migrate(app, db)
+db.init_app(app)
 # Define your models (Restaurant, Pizza, RestaurantPizza) here
 
 # Define the GET /pizzas route to return a list of pizzas in JSON format
