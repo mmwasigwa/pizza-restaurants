@@ -46,5 +46,3 @@ def create_restaurant_pizza():
     except Exception as e:
         # Handle any errors and return an error response
         return jsonify({"errors": [str(e)]}), 500
-
-# Define other routes and functionality as needed
