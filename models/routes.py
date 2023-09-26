@@ -16,8 +16,7 @@ def get_pizzas():
 
 # Define the route to create a new RestaurantPizza entry
 @app.route('/restaurant_pizzas', methods=['POST'])
-def create_restaurant_pizza():
-    try:
+nt)  # noqa: E501    try:
         # Parse JSON data from the request
         data = request.get_json()
 

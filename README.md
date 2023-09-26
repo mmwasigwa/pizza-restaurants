@@ -1,6 +1,6 @@
 # Flask Code Challenge - Pizza Restaurants
 
-## Table of Contents :
+### Table of Contents :
 
 - [Introduction](#introduction)
 - [Technologies Used](#technologies_used)
