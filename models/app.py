@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, make_response,request
 from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource, reqparse
 from models import db, Pizza, Restaurant, RestaurantPizza
@@ -87,12 +87,17 @@ api.add_resource(RestaurantPizzaResource, "/restaurant_pizzas")
 # Define the GET /pizzas route to return a list of pizzas in JSON format
 class PizzaListResource(Resource):
     def get(self):
-        try:
-            pizzas = Pizza.query.all()
-            return Pizza_schema.dump(pizzas, many=True)
-        except Exception as e:
-            return {"error": str(e)}, 500
-
+        # try:
+        #     pizzas = Pizza.query.all()
+        #     return Pizza_schema.dump(pizzas, many=True)
+        # # except Exception as e:
+        #     return {"error": str(e)}, 500
+        # return make_response(jsonify()
+        pizzas = Pizza.query.all()
+        pizza_schema = PizzaSchema(many=True)
+        serialized_pizzas = pizza_schema.dump(pizzas)
+        return make_response(jsonify(serialized_pizzas), 200)
+    
 api.add_resource(PizzaListResource, "/pizzas")
 
 # Define the GET /restaurants route to return a list of restaurants in JSON format
