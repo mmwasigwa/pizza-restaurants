@@ -1,15 +1,16 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_marshmallow import marshmallow
 from models import Restaurant, RestaurantPizza, Pizza
 from routes import get_pizzas, create_restaurant_pizza
-from flask_marshmallow import Marshmallow
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizzadatabase.db'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
+ma=marshmallow
 
 # Define the GET /pizzas route to return a list of pizzas in JSON format
 @app.route('/pizzas', methods=['GET'])
@@ -57,8 +58,43 @@ def create_restaurant_pizza():  # noqa: F811
         # Handle any errors and return an error response
         return jsonify({"errors": [str(e)]}), 500
 
+# Pizzas Schema
+class PizzaSchema(marshmallow.SQLAlchemySchema):
+
+    class Meta:
+        model = Pizza
+
+    Pizza = ma.auto_field()
+
+Pizza_schema = PizzaSchema()
+Pizzas_schema = PizzaSchema(many=True)
+
+# Restaurant Schema
+
+
+class RestaurantSchema(marshmallow.SQLAlchemySchema):
+
+    class Meta:
+        model = Restaurant
+
+    Restaurant = ma.auto_field()
+
+Restaurant_schema = RestaurantSchema()
+Restaurants_schema = RestaurantSchema(many=True)
+
+# Restaurant_Pizzas Schema
+
+class Restaurant_PizzaSchema(marshmallow.SQLAlchemySchema):
+
+    class Meta:
+        model = RestaurantPizza
+
+    RestaurantPizza = ma.auto_field()
+
+Restaurant_Pizza_schema = Restaurant_PizzaSchema()
+Restaurant_Pizzas_schema = Restaurant_PizzaSchema(many=True)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    ma = Marshmallow(app)
