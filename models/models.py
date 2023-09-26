@@ -25,7 +25,7 @@ class RestaurantPizza(db.Model):
     price = db.Column(db.Float, nullable=False)
 
     # Define foreign keys for the relationships with Restaurant and Pizza
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)  # noqa: E501
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizzas.id'), nullable=False)
 
     def serialize(self):
@@ -44,7 +44,7 @@ class Restaurant(db.Model):
     address = db.Column(db.String(255), nullable=False)
 
     # Define the relationship with RestaurantPizza
-    restaurant_pizzas = db.relationship('RestaurantPizza', backref='restaurant', lazy=True)
+    restaurant_pizzas = db.relationship('RestaurantPizza', backref='restaurant', lazy=True)  # noqa: E501
 
     def serialize(self):
         return {
